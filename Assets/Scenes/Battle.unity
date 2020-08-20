@@ -1053,6 +1053,7 @@ MonoBehaviour:
   bugStats: {fileID: 2102288640}
   player: {fileID: 1901211764}
   attackHandler: {fileID: 1350699537}
+  attackButton: {fileID: 1395290475}
 --- !u!1 &1901211761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,6 +1107,7 @@ MonoBehaviour:
   bugStats: {fileID: 1148229782}
   enemy: {fileID: 1739467245}
   attackHandler: {fileID: 423271016}
+  attackButton: {fileID: 1395290475}
 --- !u!224 &2102288637 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3294380801300573619, guid: a1db42403052c428abefe1cca8770952,

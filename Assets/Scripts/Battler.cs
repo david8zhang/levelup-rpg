@@ -5,6 +5,13 @@ public class Battler : MonoBehaviour
 {
 
     public BugStats bugStats;
+    public struct Bug
+    {
+        public int attack;
+        public int defense;
+    }
+
+    public Bug bugRef; // A reference to bug's attack and defense stat for damage calculation
 
 
     // Use this for initialization
@@ -13,9 +20,18 @@ public class Battler : MonoBehaviour
 
     }
 
-    public virtual int CalculateDamageDealt()
+    public virtual int CalculateDamageDealt(Battler other)
     {
-        return Random.Range(10, 30);
+        int attack = bugRef.attack;
+        int baseDamage = Mathf.FloorToInt((attack * attack) / (attack + other.bugRef.defense));
+
+        int critValue = Random.Range(1, 10);
+        if (critValue == 1)
+        {
+            baseDamage *= 2;
+            Debug.Log("CRITICAL HIT!");
+        }
+        return baseDamage;
     }
 
     public virtual void TakeDamage(int damage)

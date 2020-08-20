@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Player : Battler
 {
     public Enemy enemy;
     public AttackHandler attackHandler;
+    public Button attackButton;
 
     // Use this for initialization
     public override void Start()
@@ -13,11 +15,11 @@ public class Player : Battler
         string playerSaveData = PlayerPrefs.GetString("player_data");
         SaveData saveData = JsonUtility.FromJson<SaveData>(playerSaveData);
         bugStats.SetStats(saveData.name, saveData.level, saveData.health);
-    }
-
-    public override int CalculateDamageDealt()
-    {
-        return 100;
+        bugRef = new Bug
+        {
+            attack = saveData.attack,
+            defense = saveData.defense
+        };
     }
 
     public void Attack()
@@ -29,7 +31,8 @@ public class Player : Battler
     {
         GameObject target = enemy.attackHandler.gameObject;
         attackHandler.Attack(target, AttackHandler.BackupAngle.Player);
-        yield return new WaitForSeconds(3f);
+        attackButton.gameObject.SetActive(false);
+        yield return new WaitForSeconds(2f);
         attackHandler.ResetAttacker();
 
         if (enemy.IsDead())

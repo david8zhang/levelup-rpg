@@ -7,7 +7,10 @@ public class AttackHandler : MonoBehaviour
     Vector3 oldAttackerPosition;
     Vector3 attackerWindUp;
     bool isAttacking;
-    float attackCountdown = 3.0f;
+
+    float attackDuration = 2.0f;
+    float attackCountdown;
+
     GameObject defender;
     public Battler battlerRef;
 
@@ -38,7 +41,7 @@ public class AttackHandler : MonoBehaviour
         Vector3 currentPosition = gameObject.transform.position;
 
         // Wind up animation
-        if (attackCountdown > 1.0f && attackCountdown <= 3.0f)
+        if (attackCountdown > 1.0f && attackCountdown <= attackDuration)
         {
             gameObject.transform.position = Vector3.MoveTowards(currentPosition, attackerWindUp, backwardStep);
         }
@@ -52,10 +55,6 @@ public class AttackHandler : MonoBehaviour
         {
             gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, oldAttackerPosition, forwardStep);
         }
-        if (attackCountdown <= 0.5f)
-        {
-            //gameObject.GetComponent<Animator>().SetBool("isAttacking", false);
-        }
     }
 
     public void ResetAttacker()
@@ -63,12 +62,13 @@ public class AttackHandler : MonoBehaviour
         oldAttackerPosition = new Vector3();
         attackerWindUp = new Vector3();
         isAttacking = false;
-        attackCountdown = 3.0f;
+        attackCountdown = attackDuration;
         defender = null;
     }
 
     public void Attack(GameObject defender, BackupAngle backupAngle)
     {
+        attackCountdown = attackDuration;
         oldAttackerPosition = gameObject.transform.position;
         Vector3 backupVector;
         switch (backupAngle)
@@ -93,8 +93,9 @@ public class AttackHandler : MonoBehaviour
     {
         if (isAttacking)
         {
-            int damageDealt = battlerRef.CalculateDamageDealt();
-            col.GetComponent<AttackHandler>().battlerRef.TakeDamage(damageDealt);
+            Battler otherBattler = col.GetComponent<AttackHandler>().battlerRef;
+            int damageDealt = battlerRef.CalculateDamageDealt(otherBattler);
+            otherBattler.TakeDamage(damageDealt);
         }
     }
 }
