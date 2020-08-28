@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Battler : MonoBehaviour
 {
 
     public BugStats bugStats;
+    public Image bugSprite;
     public struct Bug
     {
         public int attack;
@@ -43,5 +45,10 @@ public class Battler : MonoBehaviour
     public bool IsDead()
     {
         return bugStats.health == 0;
+    }
+
+    public void SetImage(Sprite image)
+    {
+        bugSprite.sprite = image;
     }
 }

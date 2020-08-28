@@ -9,15 +9,18 @@ public class Enemy : Battler
     public AttackHandler attackHandler;
     public Button attackButton;
 
+    public BugSpawner bugSprites;
+
     // Use this for initialization
     public override void Start()
     {
-        // Pick a random bug from a "bug pool" here
-        bugStats.SetStats("Wasp", 3, 100);
+        BugSpawner.SpawnedBug bug = bugSprites.SpawnBug();
+        bugStats.SetStats(bug.name, bug.level, bug.health);
+        SetImage(bug.image);
         bugRef = new Bug
         {
-            attack = 30,
-            defense = 30
+            attack = bug.attack,
+            defense = bug.defense
         };
     }
 
